@@ -1,0 +1,64 @@
+{
+  "type": "FeatureCollection",
+  "generator": "overpass-turbo",
+  "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL.",
+  "timestamp": "2015-11-13T01:07:02Z",
+  "features": [{
+      "type": "Feature",
+      "id": "node/255016126",
+      "properties": {
+        "@id": "node/255016126",
+        "amenity": "Dublin Bike",
+        "stationid": 1,
+        "stands": 10,
+        "name": "MOUNTJOY SQUARE WEST",
+        "address": "Mountjoy Square West"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.258586,
+          53.3563
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "node/255016127",
+      "properties": {
+        "@id": "node/255016127",
+        "amenity": "Dublin Bike",
+        "stationid": 2,
+        "stands": 15,
+        "name": "BLESSINGTON STREET",
+        "address": "Blessington Street"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.26814,
+          53.35677
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "node/255016128",
+      "properties": {
+        "@id": "node/255016128",
+        "amenity": "Dublin Bike",
+        "stationid": 3,
+        "stands": 15,
+        "name": "BOLTON STREET",
+        "address": "Bolton Street"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.269859,
+          53.351181
+        ]
+      }
+    }
+  ]
+}

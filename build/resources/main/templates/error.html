@@ -1,0 +1,108 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="utf-8">
+        <title>Elara - Multi-Purpose Template</title>
+        <meta name="description" content="designed for corporate business projects, however it is great for blogs, magazines, creative portfolios and many other">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- Place favicon.ico and apple-touch-icon(s) in the root directory -->
+
+        <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+
+        <link rel="stylesheet" href="css/settings.css">
+        <link rel="stylesheet" href="css/screen.css">
+        <script src="js/modernizr.js"></script> 
+<style>
+.error-container {
+  position: relative;
+  text-align: center;
+  color: white;
+}
+
+.centered {
+  position: absolute;
+  top: 50px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+</style>
+</head>
+<body>
+    <div id="go-home" class="general-container">
+        <div th:replace="fragments/header :: header"></div>
+
+        <section class="bg-main bredcumbs-area">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 col-sm-6">
+                        <h3 class="default-font">Page not found</h3>
+                    </div> <!-- /.col-md-6 -->
+                    <div class="col-md-6 col-sm-6">
+                        <ul class="inline-list bredcrumb-list">
+                            <li>
+                                <a href="index">Home</a>
+                            </li>
+                            <li>
+                                <span>Page 404</span>
+                            </li>
+                        </ul>
+                    </div> <!-- /.col-md-6 -->
+                </div> <!-- /.row -->
+            </div> <!-- /.container -->
+        </section> <!-- /.breadcrumbs-area -->
+
+        <section class="content-area clasico-section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="text-center">
+                         <h1>Oops! Something went wrong!</h1>
+                        <div class="error-container">
+                       		<a href="/">
+        				 		<img src="img/errorpage.jpg" title="Page not find"  alt="BloggerHub Page Not Found Error">
+        							  <div class="centered"><h1 th:text="${errorCode}"></h1></div>
+        					</a>
+        				</div>
+                        
+                        
+                        
+                        
+                           
+                            <p class="small-font">It looks like nothing was found at this location. Maybe try to use a search?</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-md-offset-4">
+                        <form class="search-form clasic-form">
+                            <p>
+                                <input type="text" name="s" placeholder="Search">
+                                <button type="submit"><i class="ico-443"></i></button>
+                            </p>    
+                        </form> <!-- /.search-form -->
+                        <br>
+                    </div>
+                </div> <!-- /.row -->
+            </div> <!-- /.container -->
+        </section> <!-- /.content-area -->
+
+		<section class="callout-mini bg-main">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<h6 class="color-white">
+							<span class="cursive-font">BloggerHub</span> is one of the best
+							ways to learn new skills.
+						</h6>
+					</div>
+		
+				</div>
+			</div>
+		</section>
+		<!-- /.callout-mini -->
+         
+         
+        <div th:replace="fragments/footer :: footer"></div>
+    </div> <!-- /.general-container -->
+</body>
+</html>

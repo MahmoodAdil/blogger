@@ -25,7 +25,6 @@ public class BlogPostServicesImplementation implements BlogPostServices{
 
 	@Autowired
 	public BlogPostServicesImplementation(BlogPost blogPostObj) {
-		System.out.println("BlogPostServicesImplementation called ----------------------");
 		this.blogPostObj = blogPostObj;
 	}
 
@@ -41,13 +40,10 @@ public class BlogPostServicesImplementation implements BlogPostServices{
 			Connection connection=conConfig.getConnection();
 			PreparedStatement ps=null;
 			ResultSet rs=null;
-			System.out.println("Debug Point 111");
 			String querry ="select * from public.blogpost";//test work
-			System.out.println("Debug Point 112");
+
 			ps=connection.prepareStatement(querry);	
-			System.out.println("Debug Point 113");
 			rs=ps.executeQuery();
-			System.out.println("Debug Point 114");
 			int count = 0;
 			while(rs.next()){
 				BlogPost blogPostObj=new BlogPost();
@@ -56,8 +52,6 @@ public class BlogPostServicesImplementation implements BlogPostServices{
 				blogPostObj.setBlogTitle(rs.getString("blogtitle"));
 				blogPostObj.setBlogContents(rs.getString("blogcontents"));
 				blogPostObj.setPostDate(sdf.format(rs.getTimestamp("postdate")));
-				System.out.println("Debug Point 115");
-
 				blogPostList.add(blogPostObj);
 				count++;
 			}
@@ -67,27 +61,22 @@ public class BlogPostServicesImplementation implements BlogPostServices{
 		} catch (Exception e) {
 			System.err.println("exception BlogPostServicesImplementation  "+e.getMessage());
 		}
-		System.out.println("Debug Point 116");
 		return blogPostList;
 	}
 
 	@Override
 	public List<BlogPost> getSingleBlogPost(int blogID) {
-		System.out.println("Debug Point 117");
 		List<BlogPost> blogPostList = new ArrayList<BlogPost>();
 
 		try {
 			Connection connection=conConfig.getConnection();
 			PreparedStatement ps=null;
 			ResultSet rs=null;
-			System.out.println("Debug Point 111B");
 			String querry ="select * from public.blogpost where blogid =?";//test work
-			System.out.println("Debug Point 112B");
+
 			ps=connection.prepareStatement(querry);	
-			System.out.println("Debug Point 113B");
 			ps.setInt(1, blogID);//Use SQL Parameters for Protection
 			rs=ps.executeQuery();
-			System.out.println("Debug Point 114B");
 			int count = 0;
 			while(rs.next()){
 				BlogPost blogPostObj=new BlogPost();
@@ -96,7 +85,6 @@ public class BlogPostServicesImplementation implements BlogPostServices{
 				blogPostObj.setBlogTitle(rs.getString("blogtitle"));
 				blogPostObj.setBlogContents(rs.getString("blogcontents"));
 				blogPostObj.setPostDate(sdf.format(rs.getTimestamp("postdate")));
-				System.out.println("Debug Point 115B");
 
 				blogPostList.add(blogPostObj);
 				count++;
@@ -107,14 +95,12 @@ public class BlogPostServicesImplementation implements BlogPostServices{
 		} catch (Exception e) {
 			System.err.println("exception BlogPostServicesImplementation  "+e.getMessage());
 		}
-		System.out.println("Debug Point 116B");
 		return blogPostList;
 	}
 
 	@Override
 	public String addNewBlogPost(String blogTitle, String blogContents) {
 		String blogPostDataResponse ="fail";
-		System.out.println("blogTitle  = " + blogTitle + "blogContents  = " + blogContents + " post received.");
 		try {
 			Connection connection=conConfig.getConnection();
 			java.util.Date date = new Date();
@@ -142,7 +128,6 @@ public class BlogPostServicesImplementation implements BlogPostServices{
 	@Override
 	public String deleteBlogPost(int blogid) {
 		String blogPostDataResponse ="fail";
-		System.out.println("blogTitle  = " + blogid);
 		try {
 			Connection connection=conConfig.getConnection();
 
@@ -153,9 +138,6 @@ public class BlogPostServicesImplementation implements BlogPostServices{
 
 			preparedStatement.setInt(1, blogid);
 			preparedStatement.executeUpdate();
-
-			System.out.println("Record deleted successfully");
-
 			blogPostDataResponse ="success";
 
 		}catch (Exception e) {
@@ -166,9 +148,7 @@ public class BlogPostServicesImplementation implements BlogPostServices{
 	}
 	@Override
 	public String editBlogPost(int blogid, String blogtitle, String blogcontents) {
-		System.out.println("Record editBlogPost CALLED ----------"+blogid+" "+blogtitle);
 		String blogPostDataResponse ="fail";
-		System.out.println("blogTitle  = " + blogid);
 		try {
 			Connection connection=conConfig.getConnection();
 			
@@ -180,9 +160,6 @@ public class BlogPostServicesImplementation implements BlogPostServices{
 			preparedStatement.setInt(3, blogid);
 			preparedStatement.executeUpdate();
 
-			
-			System.out.println("Record editBlogPost CALLED ----------");
-			
 			blogPostDataResponse ="success";
 			
 		}catch (Exception e) {
@@ -198,19 +175,14 @@ public class BlogPostServicesImplementation implements BlogPostServices{
 		List<BlogPost> blogPostList = new ArrayList<BlogPost>();
 		blogTitle = "%"+blogTitle+"%"; 
 		String blogTitleLower=blogTitle.toLowerCase();  
-		System.out.println("Record searchBlogPost CALLED ---------- "+blogTitleLower);
 		try {
 			Connection connection=conConfig.getConnection();
 			PreparedStatement ps=null;
 			ResultSet rs=null;
-			System.out.println("Debug Point 111D");
 			String querry ="select DISTINCT * from public.blogpost where LOWER(blogtitle) like ?";//test work
-			System.out.println("Debug Point 112D");
 			ps=connection.prepareStatement(querry);	
-			System.out.println("Debug Point 113D");
 			ps.setString(1, blogTitleLower);//Use SQL Parameters for Protection
 			rs=ps.executeQuery();
-			System.out.println("Debug Point 114D");
 			int count = 0;
 			while(rs.next()){
 				BlogPost blogPostObj=new BlogPost();
@@ -219,19 +191,16 @@ public class BlogPostServicesImplementation implements BlogPostServices{
 				blogPostObj.setBlogTitle(rs.getString("blogtitle"));
 				blogPostObj.setBlogContents(rs.getString("blogcontents"));
 				blogPostObj.setPostDate(sdf.format(rs.getTimestamp("postdate")));
-				System.out.println("Debug Point 115D");
-
+				
 				blogPostList.add(blogPostObj);
 				count++;
 			}
 			if(count == 0) {
 				System.out.println("No-SQL-Result-Found");
 			}
-			System.out.println("Debug Point 999D count ="+count);
-		} catch (Exception e) {
+			} catch (Exception e) {
 			System.err.println("exception BlogPostServicesImplementation  "+e.getMessage());
 		}
-		System.out.println("Debug Point 116D");
 		return blogPostList;
 	}
 	public BlogPost getBlogPostObj() {

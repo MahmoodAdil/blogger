@@ -1,0 +1,252 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<title>BloggerHub Home</title>
+<meta name="description"
+	content="designed for corporate business projects, however it is great for blogs, magazines, creative portfolios and many other">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<!-- Bootstrap Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+<!-- JQuery - which is needed by Bootstrap and Leaflet -->
+<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+<!-- Latest compiled and minified JavaScript for Bootstrap -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>	
+	
+<!-- Include Leaflet -->
+<script src="http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.js"></script>	
+<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css" />
+<!-- Place favicon.ico and apple-touch-icon(s) in the root directory -->
+
+<link href='http://fonts.googleapis.com/css?family=Lato:300,400,700'
+	rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Pacifico'
+	rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="css/settings.css">
+<link rel="stylesheet" href="css/screen.css">
+<script src="js/modernizr.js"></script>
+<style>
+.footer {
+	text-align: center;
+	padding-top: 20px;
+	bottom: 0;
+	color: blue;
+	width: 100%;
+	height: 40px;
+	background-color: #f5f5f5;
+}
+
+h1 {
+	color: red;
+}
+
+p {
+	color: green
+}
+</style>
+</head>
+<body>
+	<div id="go-home" class="general-container">
+
+		<!-- Wrap all template's section -->
+		<div th:replace="fragments/header :: header"></div>
+
+		<section class="bg-light-gray bredcumbs-area">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-6 col-sm-6">
+						<h3 class="default-font">Blog</h3>
+					</div>
+					<!-- /.col-md-6 -->
+					<div class="col-md-6 col-sm-6">
+						<ul class="inline-list bredcrumb-list">
+							<li><a href="index">Home</a></li>
+							<li><span>Blog</span></li>
+						</ul>
+					</div>
+					<!-- /.col-md-12 -->
+				</div>
+				<!-- /.row -->
+			</div>
+			<!-- /.container -->
+		</section>
+		<!-- /.breadcrumbs-area -->
+
+		<section class="content-area">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-9">
+						<h5 class="fancy-title default-font text-uppercase">Well Come
+							to Blogger Hub</h5>
+						<br>
+						<article class="blog-post">
+<div class="container">
+	<!-- start the row of content -->
+<div class="row">
+	
+	
+	<div id="map" style="width: 100%; height: 600px"></div>
+	<div id="mycoordinates"></div>
+</div><!-- close the row of content-->
+
+<script><!-- This is where our mapping code starts -->
+// This is our base layer - 
+var OpenStreetMap_Mapnik = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png?apikey=21a5bdbca4a64f67aef125798bebd435', {
+	maxZoom: 30,
+	attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+});
+// This is our 2nd base layer - 
+var Thunderforest_Transport = L.tileLayer('http://{s}.tile.thunderforest.com/transport/{z}/{x}/{y}.png?apikey=21a5bdbca4a64f67aef125798bebd435', {
+	attribution: '&copy; <a href="http://www.opencyclemap.org">OpenCycleMap</a>, &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+	maxZoom: 30
+});
+// This is our 3rd base layer - 
+var Thunderforest_OpenCycleMap = L.tileLayer('http://{s}.tile.thunderforest.com/cycle/{z}/{x}/{y}.png?apikey=21a5bdbca4a64f67aef125798bebd435', {
+	attribution: '&copy; <a href="http://www.opencyclemap.org">OpenCycleMap</a>, &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+});
+
+// Notice how the MAP is centered at a particular point - notice the ZOOM level
+//set zoom level and center point where will be application center when open this page
+var map = L.map('map', {center: [53.35178, -6.28151], zoom: 13,layers: [Thunderforest_Transport,Thunderforest_OpenCycleMap,OpenStreetMap_Mapnik]});
+//this is variable anmes and text shown for user to select layer.
+var baseMaps = {"Transport": Thunderforest_Transport,"Cycle Map": Thunderforest_OpenCycleMap,"OS Mapnik": OpenStreetMap_Mapnik};
+//var baseMaps = {"OS Mapnik": OpenStreetMap_Mapnik,"Transport": Thunderforest_Transport,"Cycle Map": Thunderforest_OpenCycleMap };
+  
+
+<!-- This is where we are going to get Javascript to gather the GeoJSON and make it available-->
+<!-- so that Leaflet can display it -->
+<!-- We need to make a special LAYER for our GeoJson -->
+<!-- We are going to make a group for our 'top layers' -->
+
+var DublinBike = L.layerGroup(); //first GEOJSON LAYER layer for Dublin Bike
+var DublinPark = L.layerGroup();   //SECOND GEOJSON LAYER for Dublin Park
+  <!-- we juse JQUERY to access our GeoJSON -->
+  <!-- Remember our GeoJSON is stored in a subfolder - so we need to make sure we get the file location correct-->
+  <!-- This will become a new layer -->
+  
+  $.getJSON("./geojson/bike.geojson",  
+     function(data) {
+		 // tell Leaflet to go to the function action_To_Perform_When_Marker_Is_Clicked_On_The_Map
+		 // when someone clicks on one of the objects in the GeoJSON layer
+        var geojson = L.geoJson(data,{onEachFeature: action_To_Perform_When_Marker_Is_Clicked_On_The_Map,
+			style: specific_style_for_ways});
+        geojson.addTo(map);
+        <!-- add our new layer to the group of top layers -->
+        DublinBike.addLayer(geojson);
+     }
+  );
+  
+  $.getJSON("./geojson/DublinPark.geojson",  
+     function(data) {
+		 // tell Leaflet to go to the function action_To_Perform_When_Marker_Is_Clicked_On_The_Map
+		 // when someone clicks on one of the objects in the GeoJSON layer
+        var geojson = L.geoJson(data,{onEachFeature: action_To_Perform_When_Marker_Is_Clicked_On_The_Map,
+			style: specific_style_for_ways});
+        geojson.addTo(map);
+        <!-- add our new layer to the group of top layers -->
+        DublinPark.addLayer(geojson);  // NEW LAYER GROUP NAME HERE 
+     }
+  );
+ 
+
+  
+  
+// Notice that we have made a change here also. 
+// We have added the myGeoJSONLayers variable so that Leaflet knows that you 
+// want to include the GeoJSON as a layer on the map
+// Notice that we also make a place where we can switch on/off the layer
+var overlayMaps = {"Dublin Bike": DublinBike,"Dublin Park": DublinPark};		
+// Notice how we add our second layer to our overlay container!
+
+
+// This is a VERY important function. This is where we say which colors will be 
+// displayed for specific values of the amenity tag 
+//var overlayMaps = {"Estonian amenity": DublinBike,DublinPark,myCorkLayers};	
+
+L.control.layers(baseMaps, overlayMaps,DublinBike,DublinPark).addTo(map); 
+
+// This is a VERY important function. This is where we say which colors will be 
+// displayed for specific values of the landuse tag 
+function specific_style_for_ways(feature) {
+			switch (feature.properties.amenity) {
+				case 'parking': return {color: "#8A0808"};
+				case 'park': return {color: "#008000"};
+				case 'school':   return {color: "#FA58AC"};
+				case 'place_of_worship':   return {color: "#CE2B37"};
+				case 'fountain':   return {color: "#D358F7"};
+				default: return {color: "#ADD8E6"}; // this is when we don't know the property value 
+				// or it is different to the ones above
+			}
+		}
+
+
+// This is where Leaflet will go if you click on any of the objects which are in the 
+// GeoJSON file
+function action_To_Perform_When_Marker_Is_Clicked_On_The_Map(feature, layer) {
+
+    // does this clicked feature have any properties in its GeoJSON?
+    if (feature.properties)
+    {
+		// the text for the Popup
+		var PopupText = []; 
+		
+		PopupText.push("<h4>Information</h4>");
+		if (feature.properties.amenity) // if this is a property called landuse
+			PopupText.push("<br/>Amenity = " + feature.properties.amenity)
+		if (feature.properties.name) // if this is a property called landuse
+			PopupText.push("<br/>Name = " + feature.properties.name)
+		if (feature.properties.operator) // if operator bank operator
+			PopupText.push("<br/>Operator = " + feature.properties.operator)
+		if (feature.properties.stationid) // if this is a property called landuse
+			PopupText.push("<br/>STATION ID = " + feature.properties.stationid)
+		if (feature.properties.stands) // if this is a property called landuse
+			PopupText.push("<br/>Stands = " + feature.properties.stands)
+		if (feature.properties.address) // if this is a property called landuse
+			PopupText.push("<br/>Address = " + feature.properties.address)
+
+	
+		// Join all the text to make the Popup	
+		layer.bindPopup("<p>" + PopupText.join() + "</p>");						
+	} // end if
+} // end of function
+
+</script><!-- This is where our mapping code ends -->
+
+						</article>
+						<hr>
+
+						<br> <br>
+						<h5>BloggerHub Home Page</h5>
+
+					</div>
+					<!-- /.col-md-9 -->
+
+				</div>
+				<!-- /.row -->
+			</div>
+			<!-- /.container -->
+		</section>
+		<!-- /.content-area -->
+		<section class="callout-mini bg-main">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<h6 class="color-white">
+							<span class="cursive-font">BloggerHub</span> is one of the best
+							ways to learn new skills.
+						</h6>
+					</div>
+
+				</div>
+			</div>
+		</section>
+		<!-- /.callout-mini -->
+		<div th:replace="fragments/footer :: footer"></div>
+	</div>
+	<!-- /.general-container -->
+</body>
+</html>

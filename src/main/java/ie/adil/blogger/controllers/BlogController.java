@@ -19,76 +19,74 @@ import ie.adil.blogger.services.BlogPostServicesImplementation;
 @Scope(value = "prototype")
 public class BlogController {
 	private BlogPostServicesImplementation blogPostServicesImp;// = new BlogPostServicesImplementation();
-	
+
 	@Autowired
 	public BlogController(BlogPostServicesImplementation blogPostServicesImp) {
 		this.blogPostServicesImp = blogPostServicesImp;
 	}
-	
-	
+
+
 	@RequestMapping("/blog")
 	public String handleBlogPost(Model model) {
 		List<BlogPost> blogPostList = blogPostServicesImp.getAllBlogPosts();
 		model.addAttribute("blogPostData", blogPostList.iterator());
-	    return "blog";
+		return "blog";
 	}
-	
+
 	@RequestMapping(value="/single-blog", method={RequestMethod.POST,RequestMethod.GET})
 	public String handleBlogSinglePost(Model model, @RequestParam("blogid") int blogid) {
 		List<BlogPost> blogPostData = blogPostServicesImp.getSingleBlogPost(blogid);
 		model.addAttribute("blogPostData", blogPostData.iterator());
-	    return "blogsingle";
+		return "blogsingle";
 	}
 	@RequestMapping("/addNewBlogPost")
 	public String handleAddNewBlogPostp() {
-	    return "addNewBlogPost";
+		return "addNewBlogPost";
 	}
-	
-	@PostMapping(value = "/addNewBlogPostProcess")
-    public String handleAddNewBlogPostProcess(Model model, @RequestParam("blogTitle") String blogTitle,
-                    @RequestParam("blogContents") String blogContents) {
-           
-            String blogPostDataResponse = blogPostServicesImp.addNewBlogPost(blogTitle, blogContents);
-            System.out.println("blogPostDataResponse  = " +blogPostDataResponse);           
-            return "addNewBlogPost";
 
-    }
+	@PostMapping(value = "/addNewBlogPostProcess")
+	public String handleAddNewBlogPostProcess(Model model, @RequestParam("blogTitle") String blogTitle,
+			@RequestParam("blogContents") String blogContents) {
+
+		String blogPostDataResponse = blogPostServicesImp.addNewBlogPost(blogTitle, blogContents);
+		System.out.println("blogPostDataResponse  = " +blogPostDataResponse);           
+		return "addNewBlogPost";
+
+	}
 	@RequestMapping("/blogeditor")
 	public String handleBlogEditor(Model model) {
 		List<BlogPost> blogPostList = blogPostServicesImp.getAllBlogPosts();
 		model.addAttribute("blogPostData", blogPostList.iterator());
-		
-	    return "blogEditorTable";
+
+		return "blogEditorTable";
 	}
-	
+
 	@PostMapping(value ="/editBlogForm")
 	public String handleBlogEditorFormDisplay(Model model, @RequestParam("blogid") int blogid) {
 		List<BlogPost> blogPostData = blogPostServicesImp.getSingleBlogPost(blogid);
 		model.addAttribute("blogPostData", blogPostData.iterator());
 
-	    return "editBlogPostForm";
+		return "editBlogPostForm";
 	}
 	@PostMapping(value ="/editBlog")
 	public String handleBlogEditorUpdate(Model model, @RequestParam("blogid") int blogid, @RequestParam("blogtitle") String blogtitle,
 			@RequestParam("blogcontents") String blogcontents) {
 		String blogPostList = blogPostServicesImp.editBlogPost(blogid, blogtitle, blogcontents);
 
-	    return "blogEditorTable";
+		return "blogEditorTable";
 	}
-	
+
 	@PostMapping(value ="/deleteBlog")
 	public String handleBlogDelete(Model model, @RequestParam("blogid") int blogid) {
 		System.out.println("deleteBlog blogid  = " +blogid);
-		 String blogPostDataResponse = blogPostServicesImp.deleteBlogPost(blogid);
-         System.out.println("blogPostDataResponse  = " +blogPostDataResponse);
-	    return "blogEditorTable";
+		String blogPostDataResponse = blogPostServicesImp.deleteBlogPost(blogid);
+		return "blogEditorTable";
 	}
 	@RequestMapping(value="/searchblog", method={RequestMethod.POST,RequestMethod.GET})
 	public String handleBlogSearch(Model model, @RequestParam("blogtitle") String val) {
-		System.out.println("searchblog  = " +val);
 		List<BlogPost> blogPostData = blogPostServicesImp.searchBlogPost(val);
 		model.addAttribute("blogPostData", blogPostData.iterator());
-	    return "searchResult";
+		return "searchResult";
 	}
 
 }

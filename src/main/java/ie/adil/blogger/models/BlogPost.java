@@ -13,7 +13,6 @@ public class BlogPost {
 	private String postDate;
 	
 	public BlogPost() {
-		System.out.println("BlogPost called ----------------------");
 	}
 	
 	public int getBlogID() {
