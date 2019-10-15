@@ -1,0 +1,56 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "node/255016126",
+      "properties": {
+        "@id": "node/255016126",
+        "amenity": "atm",
+        "drive_through": "no",
+        "name": "Ulster Bank",
+        "operator": "Ulster Bank"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.2515833,
+          53.3372786
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "node/255016301",
+      "properties": {
+        "@id": "node/255016301",
+        "amenity": "atm",
+        "operator": "Ulster Bank"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.2457022,
+          53.3339606
+        ]
+      }
+    },  
+    {
+      "type": "Feature",
+      "id": "node/3798359525",
+      "properties": {
+        "@id": "node/3798359525",
+        "amenity": "atm",
+        "drive_through": "no",
+        "operator": "Bank of Ireland"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.258161,
+          53.3852462
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,170 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<title>BloggerHub Home</title>
+<meta name="description"
+	content="designed for corporate business projects, however it is great for blogs, magazines, creative portfolios and many other">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Place favicon.ico and apple-touch-icon(s) in the root directory -->
+
+<link href='http://fonts.googleapis.com/css?family=Lato:300,400,700'
+	rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Pacifico'
+	rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="css/settings.css">
+<link rel="stylesheet" href="css/screen.css">
+<script src="js/modernizr.js"></script>
+
+</head>
+<body>
+	<div id="go-home" class="general-container">
+
+		<!-- Wrap all template's section -->
+		<div th:replace="fragments/header :: header"></div>
+
+		<section class="bg-light-gray bredcumbs-area">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-6 col-sm-6">
+						<h3 class="default-font">Blog</h3>
+					</div>
+					<!-- /.col-md-6 -->
+					<div class="col-md-6 col-sm-6">
+						<ul class="inline-list bredcrumb-list">
+							<li><a href="index">Home</a></li>
+							<li><span>Blog</span></li>
+						</ul>
+					</div>
+					<!-- /.col-md-12 -->
+				</div>
+				<!-- /.row -->
+			</div>
+			<!-- /.container -->
+		</section>
+		<!-- /.breadcrumbs-area -->
+
+		<section class="content-area">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-9">
+						<h5 class="fancy-title default-font text-uppercase">Well Come
+							to Blogger Hub</h5>
+						<br>
+						<!-- /Editing Table Start -->
+						
+<section class="content-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-9">
+                <table class="table table-hover shop-table cart" cellspacing="0">
+				  <thead>
+				    <tr>
+				      <th scope="col">#</th>
+				      <th scope="col">Title</th>
+				      <th scope="col">Edit</th>
+				      <th scope="col">Delete</th>
+				    </tr>
+				  </thead>
+				  <tbody>
+				    <tr th:each="blogPostData,iterationStatus : ${blogPostData}">
+				      <th scope="row" th:text="${iterationStatus.count}"></th>
+				      <td th:text="${blogPostData.getBlogTitle()}"></td>
+				      <td>
+				      	<form action="/editBlogForm" th:action="@{/editBlogForm}" th:object="${editBlogForm}" method="post">
+							<input type="hidden" th:value="${blogPostData.getBlogID()}" name="blogid"></input>
+							<button class="btn btn-danger btn-block active">Edit</button>
+						</form>
+				      </td>
+				      <td>
+				         <form action="/deleteBlog" th:action="@{/deleteBlog}" th:object="${deleteBlog}" method="post">
+							<input type="hidden" th:value="${blogPostData.getBlogID()}" name="blogid"></input>
+							<button type="submit" class="btn-md outline-style color-main" name="submit">Delete</button>
+						 </form>
+				      </td>
+				    </tr>
+				  </tbody>
+				</table>
+ 
+               
+            </div> <!-- /.col-md-9 -->
+        </div> <!-- /.row -->
+    </div> <!-- /.container -->
+</section> <!-- /.content-area -->
+
+
+
+
+
+
+
+
+
+
+
+					<!-- /Editing Table END -->
+					</div>
+					<!-- /.col-md-9 -->
+
+					<div class="col-md-3">
+						<aside class="sidebar-area light-style">
+							<div class="widget side-search">
+								<form class="search-form">
+									<p>
+										<input type="text" name="s" placeholder="Search">
+										<button type="submit">
+											<i class="ico-443"></i>
+										</button>
+									</p>
+								</form>
+								<!-- /.search-form -->
+							</div>
+							<!-- /.side-search -->
+
+							<div class="widget side-ads">
+								<div class="ads-area">
+									<h6>Advertisment</h6>
+									<figure>
+										<a href="#" target="blank"> <img
+											src="/img/guest-blogging-strategy.jpg" alt="ads banner">
+										</a>
+									</figure>
+								</div>
+							</div>
+							<!-- /.side-ads -->
+
+
+						</aside>
+						<!-- /.sidebar-area -->
+
+					</div>
+					<!-- /.col-md-3 -->
+
+
+				</div>
+				<!-- /.row -->
+			</div>
+			<!-- /.container -->
+		</section>
+		<!-- /.content-area -->
+		<section class="callout-mini bg-main">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<h6 class="color-white">
+							<span class="cursive-font">BloggerHub</span> is one of the best
+							ways to learn new skills.
+						</h6>
+					</div>
+
+				</div>
+			</div>
+		</section>
+		<!-- /.callout-mini -->
+		<div th:replace="fragments/footer :: footer"></div>
+	</div>
+	<!-- /.general-container -->
+</body>
+</html>
