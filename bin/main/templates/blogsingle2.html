@@ -1,0 +1,179 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="utf-8">
+        <title>BloggerHub Post</title>
+        <meta name="description" content="designed for corporate business projects, however it is great for blogs, magazines, creative portfolios and many other">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- Place favicon.ico and apple-touch-icon(s) in the root directory -->
+
+        <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+
+        <link rel="stylesheet" href="css/settings.css">
+        <link rel="stylesheet" href="css/screen.css">
+        <script src="js/modernizr.js"></script> 
+
+    </head>
+    <body>
+        <div id="go-home" class="general-container">
+
+            <!-- Wrap all template's section -->
+            <div th:replace="fragments/header :: header"></div>
+
+            <section class="bg-light-gray bredcumbs-area">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6 col-sm-6">
+                            <h3 class="default-font">Blog</h3>
+                        </div> <!-- /.col-md-6 -->
+                        <div class="col-md-6 col-sm-6">
+                            <ul class="inline-list bredcrumb-list">
+                                <li>
+                                    <a href="index">Home</a>
+                                </li>
+                                <li>
+                                    <span>Blog</span>
+                                </li>
+                            </ul>
+                        </div> <!-- /.col-md-12 -->
+                    </div> <!-- /.row -->
+                </div> <!-- /.container -->
+            </section> <!-- /.breadcrumbs-area -->
+
+            <section class="content-area">
+                <div class="container">
+                    <div class="row">
+            <div class="col-md-9">
+                <h5 class="fancy-title default-font text-uppercase">Web Design</h5>
+                <br>
+                <article class="blog-post" th:each="blogPostData,iterationStatus : ${blogPostData}">
+                    <div>
+                        <figure>
+                            <a href="#">
+                                <img src="/img/blog.jpg" alt="post post">
+                            </a>
+                        </figure>
+                    </div>
+                    <div>
+                        <h4 class="post-title"><a th:href="@{/single-blog(blogid=${blogPostData.getBlogID()})}" th:text="${blogPostData.getBlogTitle()}"></a></h4>
+
+                        <ul class="inline-list blog-meta">
+                            <li><a th:href="@{/single-blog(blogid=${blogPostData.getBlogID()})}" class="color-main" th:text="${blogPostData.getPostDate()}"></a></li>
+                            <li>
+                                <i class="ico-342 color-main"></i>
+                                <b>17</b>
+                            </li>
+                            <li>
+                                <a href="#">design</a>
+                                <a href="#">illustrator</a>
+                            </li>
+                        </ul>
+
+                        <p th:text="${blogPostData.getBlogContents()}"></p>
+                    </div>
+                </article>
+                <hr>
+                <div class="author-bio row">
+                    <div class="col-md-2 col-sm-2">
+                        <figure>
+                            <a href="#">
+                                <img src="http://www.placehold.it/90x90" alt="Author bio">
+                            </a>
+                        </figure>
+                    </div>
+                    <div class="col-md-10 col-sm-10">
+                        <ul class="inline-list blog-meta">
+                            <li><small class="color-main">June 22, 2013</small></li>
+                            <li>
+                                <span class="author-link"><small>Posted by</small> <a href="#">Admin</a></span>
+                            </li>
+                        </ul>
+                        <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam.</p>
+                        <ul class="social-links only-icons inline-list">
+                            <li>
+                                <a href="#"><i class="ico-1178"></i></a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="ico-1182"></i></a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="ico-1172"></i></a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="ico-1230"></i></a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="ico-1240"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div> <!-- /.author-bio -->
+                <br>
+                <br>
+                <h5>Leave a reaply</h5>
+                <form id="comment-form" action="#" method="post" class="row">
+                    <p class="col-md-8">
+                        <input class="form-control" type="text" name="name" placeholder="Name*:" required>
+                    </p>
+                    <p class="col-md-8">
+                        <input class="form-control" type="email" name="email" placeholder="Email (will not be published)*:" required>
+                    </p>
+                    <p class="col-md-8">
+                        <input class="form-control" type="text" name="subject" placeholder="Website:">
+                    </p>
+                    <p class="col-md-10">
+                       <textarea class="form-control" rows="10" name="message" placeholder="Comment:"></textarea>
+                    </p>
+                    <p class="col-md-10">
+                        <button type="submit" class="btn-md outline-style color-main" name="submit">Submit</button>
+                    </p>
+                </form> <!-- /#contact-form -->
+            </div> <!-- /.col-md-9 -->
+
+                        <div class="col-md-3">
+                            <aside class="sidebar-area light-style">
+                                <div class="widget side-search">
+                                    <form class="search-form">
+                                        <p>
+                                            <input type="text" name="s" placeholder="Search">
+                                            <button type="submit"><i class="ico-443"></i></button>
+                                        </p>    
+                                    </form> <!-- /.search-form -->
+                                </div> <!-- /.side-search -->
+
+                                <div class="widget side-ads">
+                                    <div class="ads-area">
+                                        <h6>Advertisment</h6>
+                                        <figure>
+                                            <a href="#" target="blank">
+                                                <img src="/img/guest-blogging-strategy.jpg" alt="ads banner">
+                                            </a>
+                                        </figure>
+                                    </div>
+                                </div> <!-- /.side-ads -->
+
+
+                            </aside> <!-- /.sidebar-area -->
+                            
+                        </div> <!-- /.col-md-3 -->
+
+
+                    </div> <!-- /.row -->
+                </div> <!-- /.container -->
+            </section> <!-- /.content-area -->
+            <section class="callout-mini bg-main">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h6 class="color-white"><span class="cursive-font">BloggerHub</span> is one of the best ways to learn new skills.</h6>
+                        </div>
+                        
+                    </div>
+                </div>
+            </section> <!-- /.callout-mini -->
+            <div th:replace="fragments/footer :: footer"></div>
+        </div> <!-- /.general-container -->
+    </body>
+</html>

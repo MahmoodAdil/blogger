@@ -6,9 +6,14 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
+
+import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
@@ -16,201 +21,81 @@ import java.text.SimpleDateFormat;
 
 import ie.adil.blogger.dbconnection.ConnectionConfiguration;
 import ie.adil.blogger.models.BlogPost;
+import ie.adil.blogger.models.BlogsRowMapper;
 
 @Component
 @Scope("prototype")
 public class BlogPostServicesImplementation implements BlogPostServices{
-	private static final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-	private BlogPost blogPostObj;
-
+	
+	JdbcTemplate jdbcTemplate;
+	private final String SQL_GET_ALL_BLOGS = "select * from public.blogpost";
+	private final String SQL_FIND_blog = "select * from public.blogpost where blogid =?";
+	private final String SQL_UPDATE_BLOG = "UPDATE blogpost SET blogtitle = ?, blogcontents = ? WHERE blogid = ?";
+	private final String SQL_INSERT_BLOG = "INSERT INTO blogpost (blogtitle, blogcontents, postdate) VALUES (?, ?, ?)";
+	private final String SQL_DELETE_BLOG = "delete from blogpost where blogid = ?";
+	
+	
 	@Autowired
-	public BlogPostServicesImplementation(BlogPost blogPostObj) {
-		this.blogPostObj = blogPostObj;
+	public BlogPostServicesImplementation(DataSource dataSource) {
+		jdbcTemplate = new JdbcTemplate(dataSource);
 	}
-
-	//@Autowired
-	private ConnectionConfiguration conConfig= ConnectionConfiguration.getInstance();
 
 
 	@Override
-	public List<BlogPost> getAllBlogPosts() {
-		List<BlogPost> blogPostList = new ArrayList<BlogPost>();
-
-		try {
-			Connection connection=conConfig.getConnection();
-			PreparedStatement ps=null;
-			ResultSet rs=null;
-			String querry ="select * from public.blogpost";//test work
-
-			ps=connection.prepareStatement(querry);	
-			rs=ps.executeQuery();
-			int count = 0;
-			while(rs.next()){
-				BlogPost blogPostObj=new BlogPost();
-
-				blogPostObj.setBlogID(rs.getInt("blogid"));
-				blogPostObj.setBlogTitle(rs.getString("blogtitle"));
-				blogPostObj.setBlogContents(rs.getString("blogcontents"));
-				blogPostObj.setPostDate(sdf.format(rs.getTimestamp("postdate")));
-				blogPostList.add(blogPostObj);
-				count++;
-			}
-			if(count == 0) {
-				System.out.println("No-SQL-Result-Found");
-			}
-		} catch (Exception e) {
-			System.err.println("exception BlogPostServicesImplementation  "+e.getMessage());
-		}
-		return blogPostList;
+	public List<BlogPost> getAllBlogPosts(){
+		return jdbcTemplate.query(SQL_GET_ALL_BLOGS, new BlogsRowMapper());
 	}
+
 
 	@Override
 	public List<BlogPost> getSingleBlogPost(int blogID) {
-		List<BlogPost> blogPostList = new ArrayList<BlogPost>();
-
-		try {
-			Connection connection=conConfig.getConnection();
-			PreparedStatement ps=null;
-			ResultSet rs=null;
-			String querry ="select * from public.blogpost where blogid =?";//test work
-
-			ps=connection.prepareStatement(querry);	
-			ps.setInt(1, blogID);//Use SQL Parameters for Protection
-			rs=ps.executeQuery();
-			int count = 0;
-			while(rs.next()){
-				BlogPost blogPostObj=new BlogPost();
-
-				blogPostObj.setBlogID(rs.getInt("blogid"));
-				blogPostObj.setBlogTitle(rs.getString("blogtitle"));
-				blogPostObj.setBlogContents(rs.getString("blogcontents"));
-				blogPostObj.setPostDate(sdf.format(rs.getTimestamp("postdate")));
-
-				blogPostList.add(blogPostObj);
-				count++;
-			}
-			if(count == 0) {
-				System.out.println("No-SQL-Result-Found");
-			}
-		} catch (Exception e) {
-			System.err.println("exception BlogPostServicesImplementation  "+e.getMessage());
-		}
-		return blogPostList;
+		return (List<BlogPost>) jdbcTemplate.queryForObject(SQL_FIND_blog, new Object[] { blogID }, new BlogsRowMapper());
 	}
 
+	@Override
+	public BlogPost getBlogByid(int blogID) {
+		return jdbcTemplate.queryForObject(SQL_FIND_blog, new Object[] { blogID }, new BlogsRowMapper());
+	}
 	@Override
 	public String addNewBlogPost(String blogTitle, String blogContents) {
-		String blogPostDataResponse ="fail";
-		try {
-			Connection connection=conConfig.getConnection();
-			java.util.Date date = new Date();
-			Object currentTimeStamp = new java.sql.Timestamp(date.getTime());
-
-			String sqlInsert = "INSERT INTO blogpost (blogtitle, blogcontents, postdate)" +
-					"VALUES (?, ?, ?)";
-			//Create a PreparedStatment with that SQL and insert the values with index:
-			PreparedStatement preparedStatement = connection.prepareStatement(sqlInsert);
-			preparedStatement.setString(1, blogTitle);
-			preparedStatement.setString(2, blogContents);
-			preparedStatement.setObject(3, currentTimeStamp); 
-			preparedStatement.executeUpdate(); 
-			blogPostDataResponse ="success";
-
-		}catch (Exception e) {
-			System.err.println("exception BlogPostServicesImplementation  addNewBlogPost "+e.getMessage());
-			blogPostDataResponse ="fail";
+		java.util.Date date = new Date();
+		Object currentTimeStamp = new java.sql.Timestamp(date.getTime());
+		boolean result = jdbcTemplate.update(SQL_INSERT_BLOG, blogTitle, blogContents, currentTimeStamp) > 0;
+		if(result) {
+			return "success";
+		}else {
+			return "fail";
 		}
-		return blogPostDataResponse;
-	}
-
-
-
-	@Override
-	public String deleteBlogPost(int blogid) {
-		String blogPostDataResponse ="fail";
-		try {
-			Connection connection=conConfig.getConnection();
-
-			System.out.println("Record deleted CALLED ----------");
-			String sqlDelete = "delete from blogpost where blogid = ?";
-			//Create a PreparedStatment with that SQL and insert the values with index:
-			PreparedStatement preparedStatement = connection.prepareStatement(sqlDelete);
-
-			preparedStatement.setInt(1, blogid);
-			preparedStatement.executeUpdate();
-			blogPostDataResponse ="success";
-
-		}catch (Exception e) {
-			System.err.println("exception BlogPostServicesImplementation  deleteBlogPost "+e.getMessage());
-			blogPostDataResponse ="fail";
-		}
-		return blogPostDataResponse;
 	}
 	@Override
 	public String editBlogPost(int blogid, String blogtitle, String blogcontents) {
-		String blogPostDataResponse ="fail";
-		try {
-			Connection connection=conConfig.getConnection();
-			
-			String sqlUpdate = "UPDATE blogpost SET blogtitle = ?, blogcontents = ? WHERE blogid = ?";
-			//Create a PreparedStatment with that SQL and insert the values with index:
-			PreparedStatement preparedStatement = connection.prepareStatement(sqlUpdate);
-			preparedStatement.setString(1, blogtitle);
-			preparedStatement.setString(2, blogcontents);
-			preparedStatement.setInt(3, blogid);
-			preparedStatement.executeUpdate();
-
-			blogPostDataResponse ="success";
-			
-		}catch (Exception e) {
-			System.err.println("exception BlogPostServicesImplementation  deleteBlogPost "+e.getMessage());
-			blogPostDataResponse ="fail";
+		Boolean result = jdbcTemplate.update(SQL_UPDATE_BLOG, blogtitle, blogcontents, blogid) > 0;
+		if(result) {
+			return "success";
+		}else {
+		return "fail";
 		}
-		return blogPostDataResponse;
 	}
-	
+
+	@Override
+	public String deleteBlogPost(int blogid) {
+		Boolean result = jdbcTemplate.update(SQL_DELETE_BLOG, blogid) > 0;
+		if(result) {
+			return "success";
+		}else {
+		return "fail";
+		}
+	}
+
+
+
+
+
 	@Override
 	public List<BlogPost> searchBlogPost(String blogTitle) {
-		
-		List<BlogPost> blogPostList = new ArrayList<BlogPost>();
-		blogTitle = "%"+blogTitle+"%"; 
-		String blogTitleLower=blogTitle.toLowerCase();  
-		try {
-			Connection connection=conConfig.getConnection();
-			PreparedStatement ps=null;
-			ResultSet rs=null;
-			String querry ="select DISTINCT * from public.blogpost where LOWER(blogtitle) like ?";//test work
-			ps=connection.prepareStatement(querry);	
-			ps.setString(1, blogTitleLower);//Use SQL Parameters for Protection
-			rs=ps.executeQuery();
-			int count = 0;
-			while(rs.next()){
-				BlogPost blogPostObj=new BlogPost();
-
-				blogPostObj.setBlogID(rs.getInt("blogid"));
-				blogPostObj.setBlogTitle(rs.getString("blogtitle"));
-				blogPostObj.setBlogContents(rs.getString("blogcontents"));
-				blogPostObj.setPostDate(sdf.format(rs.getTimestamp("postdate")));
-				
-				blogPostList.add(blogPostObj);
-				count++;
-			}
-			if(count == 0) {
-				System.out.println("No-SQL-Result-Found");
-			}
-			} catch (Exception e) {
-			System.err.println("exception BlogPostServicesImplementation  "+e.getMessage());
-		}
-		return blogPostList;
+		// TODO Auto-generated method stub
+		return null;
 	}
-	public BlogPost getBlogPostObj() {
-		return blogPostObj;
-	}
-
-	public void setBlogPostObj(BlogPost blogPostObj) {
-		this.blogPostObj = blogPostObj;
-	}
-
 
 
 

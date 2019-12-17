@@ -18,6 +18,7 @@ import ie.adil.blogger.services.BlogPostServicesImplementation;
 @Controller
 @Scope(value = "prototype")
 public class BlogController {
+	
 	private BlogPostServicesImplementation blogPostServicesImp;// = new BlogPostServicesImplementation();
 
 	@Autowired
@@ -35,8 +36,11 @@ public class BlogController {
 
 	@RequestMapping(value="/single-blog", method={RequestMethod.POST,RequestMethod.GET})
 	public String handleBlogSinglePost(Model model, @RequestParam("blogid") int blogid) {
-		List<BlogPost> blogPostData = blogPostServicesImp.getSingleBlogPost(blogid);
-		model.addAttribute("blogPostData", blogPostData.iterator());
+//		List<BlogPost> blogPostData = blogPostServicesImp.getSingleBlogPost(blogid);
+//		model.addAttribute("blogPostData", blogPostData.iterator());
+		BlogPost blogPostData = blogPostServicesImp.getBlogByid(blogid);
+		model.addAttribute("blogPostData", blogPostData);
+		
 		return "blogsingle";
 	}
 	@RequestMapping("/addNewBlogPost")
@@ -63,9 +67,10 @@ public class BlogController {
 
 	@PostMapping(value ="/editBlogForm")
 	public String handleBlogEditorFormDisplay(Model model, @RequestParam("blogid") int blogid) {
-		List<BlogPost> blogPostData = blogPostServicesImp.getSingleBlogPost(blogid);
-		model.addAttribute("blogPostData", blogPostData.iterator());
-
+//		List<BlogPost> blogPostData = blogPostServicesImp.getSingleBlogPost(blogid);
+//		model.addAttribute("blogPostData", blogPostData.iterator());
+		BlogPost blogPostData = blogPostServicesImp.getBlogByid(blogid);
+		model.addAttribute("blogPostData", blogPostData);
 		return "editBlogPostForm";
 	}
 	@PostMapping(value ="/editBlog")

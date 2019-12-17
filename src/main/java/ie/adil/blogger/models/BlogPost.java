@@ -1,10 +1,13 @@
 package ie.adil.blogger.models;
 
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
+@Qualifier("firstService")
 @Scope("prototype")
 public class BlogPost {
 	private int blogID;
