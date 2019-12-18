@@ -1,6 +1,7 @@
 package ie.adil.blogger.controllers;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -36,9 +37,8 @@ public class BlogController {
 
 	@RequestMapping(value="/single-blog", method={RequestMethod.POST,RequestMethod.GET})
 	public String handleBlogSinglePost(Model model, @RequestParam("blogid") int blogid) {
-//		List<BlogPost> blogPostData = blogPostServicesImp.getSingleBlogPost(blogid);
-//		model.addAttribute("blogPostData", blogPostData.iterator());
 		BlogPost blogPostData = blogPostServicesImp.getBlogByid(blogid);
+		System.out.println("DB Response blogPostData = "+(blogPostData.getBlogID() == blogid));
 		model.addAttribute("blogPostData", blogPostData);
 		
 		return "blogsingle";
@@ -51,8 +51,8 @@ public class BlogController {
 	@PostMapping(value = "/addNewBlogPostProcess")
 	public String handleAddNewBlogPostProcess(Model model, @RequestParam("blogTitle") String blogTitle,
 			@RequestParam("blogContents") String blogContents) {
-
-		String blogPostDataResponse = blogPostServicesImp.addNewBlogPost(blogTitle, blogContents);
+		boolean blogPostDataResponse = blogPostServicesImp.addNewBlogPost(blogTitle, blogContents);
+//		String blogPostDataResponse = blogPostServicesImp.addNewBlogPost(blogTitle, blogContents);
 		System.out.println("blogPostDataResponse  = " +blogPostDataResponse);           
 		return "addNewBlogPost";
 
@@ -76,15 +76,14 @@ public class BlogController {
 	@PostMapping(value ="/editBlog")
 	public String handleBlogEditorUpdate(Model model, @RequestParam("blogid") int blogid, @RequestParam("blogtitle") String blogtitle,
 			@RequestParam("blogcontents") String blogcontents) {
-		String blogPostList = blogPostServicesImp.editBlogPost(blogid, blogtitle, blogcontents);
-
+		boolean blogPostList = blogPostServicesImp.editBlogPost(blogid, blogtitle, blogcontents);
 		return "blogEditorTable";
 	}
 
 	@PostMapping(value ="/deleteBlog")
 	public String handleBlogDelete(Model model, @RequestParam("blogid") int blogid) {
 		System.out.println("deleteBlog blogid  = " +blogid);
-		String blogPostDataResponse = blogPostServicesImp.deleteBlogPost(blogid);
+		boolean blogPostDataResponse = blogPostServicesImp.deleteBlogPost(blogid);
 		return "blogEditorTable";
 	}
 	@RequestMapping(value="/searchblog", method={RequestMethod.POST,RequestMethod.GET})

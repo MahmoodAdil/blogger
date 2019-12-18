@@ -10,10 +10,9 @@ import ie.adil.blogger.models.BlogPost;
 public interface BlogPostServices {
 	List<BlogPost> getAllBlogPosts();
 	BlogPost getBlogByid(int blogID);
-	List<BlogPost> getSingleBlogPost(int blogID);
-	String  addNewBlogPost(String blogTitle, String blogContents);
-	String  deleteBlogPost(int blogid);
-	String  editBlogPost(int blogid, String blogtitle,String blogcontents);
+	boolean  addNewBlogPost(String blogTitle, String blogContentsz);//;BlogPost blogPost
+	boolean  deleteBlogPost(int blogid);
+	boolean  editBlogPost(int blogid, String blogtitle,String blogcontents);//BlogPost blogPost
 	List<BlogPost> searchBlogPost(String blogTitle);
 
 

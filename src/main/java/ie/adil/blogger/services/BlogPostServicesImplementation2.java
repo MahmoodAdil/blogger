@@ -19,6 +19,8 @@ import java.text.SimpleDateFormat;
 import ie.adil.blogger.dbconnection.ConnectionConfiguration;
 import ie.adil.blogger.models.BlogPost;
 
+public class BlogPostServicesImplementation2{
+/*
 @Component
 @Scope("prototype")
 public class BlogPostServicesImplementation2 implements BlogPostServices{
@@ -69,8 +71,8 @@ public class BlogPostServicesImplementation2 implements BlogPostServices{
 	}
 
 	@Override
-	public List<BlogPost> getSingleBlogPost(int blogID) {
-		List<BlogPost> blogPostList = new ArrayList<BlogPost>();
+	public BlogPost getSingleBlogPost(int blogID) {
+		BlogPost blogPostList = new BlogPost();
 
 		try {
 			Connection connection=conConfig.getConnection();
@@ -90,7 +92,7 @@ public class BlogPostServicesImplementation2 implements BlogPostServices{
 				blogPostObj.setBlogContents(rs.getString("blogcontents"));
 				blogPostObj.setPostDate(sdf.format(rs.getTimestamp("postdate")));
 
-				blogPostList.add(blogPostObj);
+				//blogPostList.add(blogPostObj);
 				count++;
 			}
 			if(count == 0) {
@@ -223,6 +225,6 @@ public class BlogPostServicesImplementation2 implements BlogPostServices{
 
 
 
-
+*/
 
 }

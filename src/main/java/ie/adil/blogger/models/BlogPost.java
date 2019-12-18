@@ -18,6 +18,12 @@ public class BlogPost {
 	public BlogPost() {
 	}
 	
+	public BlogPost(int blogID, String blogTitle, String blogContents) {
+		this.blogID = blogID;
+		this.blogTitle = blogTitle;
+		this.blogContents = blogContents;
+	}
+
 	public int getBlogID() {
 		return blogID;
 	}
