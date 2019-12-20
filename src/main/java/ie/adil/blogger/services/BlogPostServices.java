@@ -6,7 +6,7 @@ import java.util.Optional;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import ie.adil.blogger.models.BlogPost;
-
+//Repository
 public interface BlogPostServices {
 	List<BlogPost> getAllBlogPosts();
 	BlogPost getBlogByid(int blogID);
