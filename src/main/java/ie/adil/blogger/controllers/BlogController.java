@@ -28,7 +28,7 @@ public class BlogController {
 	}
 
 
-	@RequestMapping("/blog")
+	@RequestMapping("/blog111111")
 	public String handleBlogPost(Model model) {
 		List<BlogPost> blogPostList = blogPostServicesImp.getAllBlogPosts();
 		model.addAttribute("blogPostData", blogPostList.iterator());
@@ -52,7 +52,6 @@ public class BlogController {
 	public String handleAddNewBlogPostProcess(Model model, @RequestParam("blogTitle") String blogTitle,
 			@RequestParam("blogContents") String blogContents) {
 		boolean blogPostDataResponse = blogPostServicesImp.addNewBlogPost(blogTitle, blogContents);
-		//		String blogPostDataResponse = blogPostServicesImp.addNewBlogPost(blogTitle, blogContents);
 		System.out.println("blogPostDataResponse  = " +blogPostDataResponse);           
 		return "addNewBlogPost";
 
