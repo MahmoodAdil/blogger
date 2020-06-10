@@ -11,8 +11,8 @@ pipeline {
         stage ('Initialize') {
             steps {
                     script {
-                    currentBuild.displayName = "The name."
-                    currentBuild.description = "The best description."
+                    currentBuild.displayName = "${env.BUILD_NUMBER}"
+                    currentBuild.description = ""
                     }
                     echo 'Initializing..'
                     echo "Hello ${params.SL_USERNAME}"
