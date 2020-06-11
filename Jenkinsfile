@@ -10,7 +10,7 @@ pipeline {
     stages {
         stage ('Initialize') {
             environment {
-                DISPLAYNAME = "BOOTSTRAP"
+                DISPLAYNAME = "BOOTSTRAP_Temp"
             }
             steps {
                 script {
