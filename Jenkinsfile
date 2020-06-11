@@ -9,9 +9,12 @@ pipeline {
     }
     stages {
         stage ('Initialize') {
+            environment {
+                DISPLAYNAME = "BOOTSTRAP"
+            }
             steps {
-                    script {
-                    currentBuild.displayName = "${env.BUILD_NUMBER}"
+                script {
+                    currentBuild.displayName = "${env.DISPLAYNAME}-#${env.BUILD_NUMBER}"
                     currentBuild.description = ""
                     }
                     echo 'Initializing..'
