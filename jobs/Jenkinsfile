@@ -26,7 +26,7 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building..'
-                sh "chmod +x -R /Volumes/Macintosh HD - Data/MahmoodAdil-GHE/blogger/jobs/shell-test.sh"
+                sh "chmod +x /Volumes/Macintosh HD - Data/MahmoodAdil-GHE/blogger/jobs/shell-test.sh"
             }
         }
     }
