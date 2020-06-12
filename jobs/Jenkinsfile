@@ -26,8 +26,8 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building..'
-                sh 'chmod +x ./blogger/scripts/shell-test.sh'
-                sh './scripts/shell-test.sh'
+                sh 'chmod +x ../scripts/shell-test.sh'
+                sh '../scripts/shell-test.sh'
             }
         }
     }
