@@ -26,7 +26,7 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building..'
-                sh "chmod +x -R ${env.WORKSPACE}/../jobs/shell-test.sh"
+                sh "chmod +x -R ${env.WORKSPACE}/blogger/jobs/shell-test.sh"
             }
         }
     }
