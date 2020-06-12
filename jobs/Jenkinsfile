@@ -26,8 +26,7 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building..'
-                sh 'chmod +x ./blogger/jobs/shell-test.sh'
-                sh './blogger/jobs/shell-test.sh'
+                sh 'printenv'
             }
         }
     }
