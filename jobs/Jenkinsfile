@@ -2,9 +2,9 @@ pipeline {
     agent any
     
     parameters{
-            string(defaultValue: '', description: 'Softlayer username', name: 'SL_USERNAME', trim: false), 
-            password(defaultValue: '', description: 'Softlayer API key', name: 'SL_API_KEY'), 
-            booleanParam(defaultValue: false, description: 'Tell to the job when is being run on a VM or a Baremetal. By default unset means VSI -- Virtual Machine', name: 'SL_VIRTUAL_GUEST'), 
+            string(defaultValue: '', description: 'Softlayer username', name: 'SL_USERNAME', trim: false) 
+            password(defaultValue: '', description: 'Softlayer API key', name: 'SL_API_KEY')
+            booleanParam(defaultValue: false, description: 'Tell to the job when is being run on a VM or a Baremetal. By default unset means VSI -- Virtual Machine', name: 'SL_VIRTUAL_GUEST') 
             file(description: 'hostnames file', name: 'hostnames')
    }
     stages {
