@@ -22,7 +22,8 @@ pipeline {
                     }
                     echo 'Initializing..'
                     echo "Hello ${params.SL_USERNAME}"
-                    echo "hostnames: ${params.hostnames}"
+                    echo "parm hostnames: ${params.hostnames}"
+                    echo "env hostnames: ${environment.hostnames}"
                     echo "The build number is ${env.BUILD_NUMBER}"
             }
         }
