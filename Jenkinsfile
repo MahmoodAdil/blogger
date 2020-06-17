@@ -1,34 +1,51 @@
 pipeline {
+
     agent any
-    
-    parameters {
-        string(name: 'SL_USERNAME', defaultValue: '', description: 'Softlayer username')
-        password(name: 'SL_API_KEY', defaultValue: 'SECRET', description: 'Softlayer API key')
-        booleanParam(name: 'SL_VIRTUAL_GUEST', defaultValue: false, description: 'Tell to the job when is being run on a VM or a Baremetal. (By default unset means VSI -- Virtual Machine)')
-        file(name: 'hostnames.txt', description: 'hostnames file')
+
+    environment {
+        FAVOURITE_FRUIT = 'tomato'
     }
+
     stages {
-        stage ('Initialize') {
+        stage('echo env vars') {
+
+            steps {
+                // This prints out all environment variables, sorted alphabetically
+                // You should see the variables declared further below
+                sh 'printenv | sort'
+
+                sh "echo I like to eat ${FAVOURITE_EGG_TYPE} eggs"
+                sh "echo And I like to drink ${FAVOURITE_DRINK}"
+                sh "echo My favourite city is ${FAVOURITE_CITY}"
+
+                // Build Parameters are also set as environment variables in the shell.
+                sh "echo The worst GoT character is: ${WORST_THRONES_CHARACTER}"
+
+                // We can also access some of the built-in environment variables
+                sh "echo My hostname is: ${HOSTNAME}"
+
+                // Environment variables can be overridden within a certain block
+                withEnv(['FAVOURITE_CITY=Portland']) {
+                    sh "echo My favourite city is temporarily ${FAVOURITE_CITY}"
+                }
+            }
+
+            // This block is evaluated before executing the steps block
             environment {
-                DISPLAYNAME = "BOOTSTRAP_Temp"
-            }
-            steps {
-                script {
-                    currentBuild.displayName = "${env.DISPLAYNAME}-#${env.BUILD_NUMBER}"
-                    currentBuild.description = ""
-                    }
-                    echo 'Initializing..'
-                    echo "Hello ${params.SL_USERNAME}"
-                    echo "Password: ${params.SL_API_KEY}"
-                    echo "The build number is ${env.BUILD_NUMBER}"
+                FAVOURITE_EGG_TYPE = "poached"
+                FAVOURITE_DRINK = "sauvignon blanc"
+                FAVOURITE_CITY = "London"
+                FAVOURITE_FRUIT = "satsuma"
             }
         }
-        stage('Build') {
+
+        stage('second stage') {
             steps {
-                echo 'Building..'
-                sh 'chmod +x ./shell-test.sh'
-                sh './shell-test.sh'
+                // This will echo tomato, because the env var was set at the global scope
+                sh 'echo My favourite fruit is ${FAVOURITE_FRUIT}'
             }
         }
+
     }
+
 }
