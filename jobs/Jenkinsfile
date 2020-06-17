@@ -30,8 +30,7 @@ pipeline {
            steps {
                script {
                    def data = readFile(file: 'username.txt')
-                   ${params.hostnames} = readFile(file: 'username.txt')
-                   println(${params.hostnames})
+                   println(data)
                }
            }
        }
