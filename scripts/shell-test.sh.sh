@@ -6,10 +6,14 @@ echo "$SL_API_KEY"
 echo "$hostnames"
 echo "parm hostnames: $hostnames"
 
-export PYTHON_VERSION="3.8"
+a='Hello'
+b='World'
+c="${a} ${b}"
+echo "${c}"
 
-# check job params
-if [ "${SL_USERNAME}" == "" ]; then
-  echo "Error: Missing SL_USERNAM param"
-  exit 1
-fi
+file="./data.txt"
+while IFS= read -r line
+do
+        # display $line or do somthing with $line
+	printf '%s\n' "$line"
+done <"$file"
