@@ -27,7 +27,8 @@ pipeline {
            steps {
                script {
                    def data = readFile(file: 'username.txt')
-                   println(data)
+                   hostnames = readFile(file: 'username.txt')
+                   println(hostnames)
                }
            }
        }
