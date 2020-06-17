@@ -7,6 +7,9 @@ pipeline {
             booleanParam(defaultValue: false, description: 'Tell to the job when is being run on a VM or a Baremetal. By default unset means VSI -- Virtual Machine', name: 'SL_VIRTUAL_GUEST') 
             file(description: 'hostnames file', name: 'hostnames')
    }
+    environment {
+                hostnames = "username.txt"
+   }
     stages {
         stage ('Initialize') {
             environment {
