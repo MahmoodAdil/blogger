@@ -26,8 +26,10 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building..'
+                def username_var = evaluate(new File("username.txt"));
                 sh 'chmod +x scripts/shell-test.sh.sh'
                 sh 'scripts/shell-test.sh.sh'
+                echo "The build number is ${username_var}"
             }
         }
     }
