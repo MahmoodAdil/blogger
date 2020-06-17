@@ -17,8 +17,8 @@ do
         # display $line or do somthing with $line
 	printf '%s\n' "$line"
 done <"$file"
-
-hostfile="./$hostnames"
+touch data2.txt
+hostfile="./data2.txt"
 while IFS= read -r line
 do
         # display $line or do somthing with $line
