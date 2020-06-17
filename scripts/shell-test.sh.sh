@@ -4,7 +4,7 @@ echo "This line printing from scripts/ jenkins-bootstrap-submetadata file"	# Thi
 echo "$SL_USERNAME"
 echo "$SL_API_KEY"
 echo "$hostnames"
- 
+echo "parm hostnames: $hostnames"
 
 export PYTHON_VERSION="3.8"
 
